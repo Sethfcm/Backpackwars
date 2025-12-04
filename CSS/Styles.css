@@ -1,0 +1,376 @@
+/* Seth Maurer 12/3/2025
+Have I mentioned how much I dislike the difference between HTML and CSS commentary code? I liked <!-- --> dang it.
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #222;
+  background-color: #E9F1FA;
+  line-height: 1.5;
+}
+
+/* Wrapper to center content and control width */
+.main-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem 1.5rem;
+}
+
+/* =========================================================
+   Header & Navigation
+   ========================================================= */
+
+.site-header {
+  background: #E9F1FA;
+  color: #030303;
+  padding: 0.8rem 1.5rem;
+  border-bottom: none;
+}
+
+/* Flex layout: title on left, nav on right (desktop) */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.site-title h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* Optional small tagline under header title */
+.site-title p {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+}
+
+/* Navigation styling */
+.nav-bar {
+  /* kept for semantic clarity; main styling on .nav-menu */
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav-menu li {
+  margin: 0;
+}
+
+/* Base link style for nav */
+.nav-menu a {
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #020202;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+/* Pseudo-class: hover state */
+.nav-menu a:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Pseudo-class: active (click) state */
+.nav-menu a:active {
+  background: rgba(0, 0, 0, 0.25);
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* =========================================================
+   Sections & Content Blocks
+   ========================================================= */
+
+/* Generic card-style section */
+.section {
+  background: #fff;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: 1px solid #dde3f1;
+}
+
+/* Callout box for emphasis (e.g., learning goals, upcoming games) */
+.section-callout {
+  border-left: 4px solid #0b7cff;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  background: #edf4ff;
+}
+
+/* Headings spacing */
+h1, h2, h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Paragraph spacing */
+p {
+  margin-top: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
+/* =========================================================
+   Layout Helpers (rows & columns)
+   ========================================================= */
+
+.row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.col {
+  flex: 1;
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+/* Base button style (also works for <a> links with class="btn") */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Solid primary button */
+.btn-primary {
+  background: #0b7cff;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(11, 124, 255, 0.35);
+}
+
+/* Hover pseudo-class for primary button */
+.btn-primary:hover {
+  background: #095cc0;
+}
+
+/* Active pseudo-class for primary button */
+.btn-primary:active {
+  background: #063f7a;
+  box-shadow: none;
+  transform: translateY(1px);
+}
+
+/* Outline / “ghost” variant for subtle links */
+.btn-ghost {
+  background: transparent;
+
+  border: 1px solid #0b7cff;
+  color: #0b7cff;
+}
+
+.btn-ghost:hover {
+  background: rgba(11, 124, 255, 0.1);
+}
+
+.btn-ghost:active {
+  background: rgba(11, 124, 255, 0.2);
+}
+
+/* =========================================================
+   Forms (e.g., newsletter signup, settings on game page)
+   ========================================================= */
+
+label {
+  display: block;
+  margin-top: 0.6rem;
+  margin-bottom: 0.1rem;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.45rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #cbd3e6;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+/* Make textareas resize only vertically, keeps layout nicer */
+textarea {
+  resize: vertical;
+}
+
+/* Error message (used on game page for budget error) */
+#error {
+  color: #c0392b;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   Tables (used in game + any other data displays)
+   ========================================================= */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 0.9rem;
+}
+
+th, td {
+  border: 1px solid #dde3f1;
+  padding: 0.4rem;
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+th {
+  background: #f0f3ff;
+  font-weight: 600;
+}
+
+/* =========================================================
+   Lists (for features, learning goals, etc.)
+   ========================================================= */
+
+ul.feature-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+ol.strategy-steps {
+  padding-left: 1.5rem;
+}
+
+/* Slight breathing room between list items */
+.feature-list li,
+.strategy-steps li {
+  margin-bottom: 0.3rem;
+}
+
+/* =========================================================
+   Images (optional – for when you add logos or screenshots)
+   ========================================================= */
+
+.hero-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #dde3f1;
+  margin-top: 1rem;
+}
+
+/* =========================================================
+   Footer & “Back to top” link
+   ========================================================= */
+
+footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dde3f1;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #555;
+}
+
+.link-top {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  text-decoration: none;
+  color: #0b7cff;
+  font-weight: 500;
+}
+
+.link-top:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+/* Medium screens: stack header better and soften spacing */
+@media (max-width: 600px) {
+
+  /* Header becomes vertical; nav goes under title */
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    justify-content: center;
+  }
+}
+
+/* Small screens: tighter padding, stack columns */
+@media (max-width: 768px) {
+
+  .main-wrapper {
+    padding: 0.75rem 1rem 2rem 1rem;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  /* Center header content on very small devices */
+  .header-inner {
+    align-items: center;
+    text-align: center;
+  }
+
+  .nav-menu {
+    justify-content: center;
+  }
+
+  .site-title h1 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Extra small screens: prevent nav wrap from looking ugly */
+@media (max-width: 480px) {
+
+  .nav-menu {
+    gap: 0.5rem;
+  }
+
+  .nav-menu a {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.85rem;
+  }
+}

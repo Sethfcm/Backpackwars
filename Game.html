@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Backpack Wars — Marketing Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Fraunces:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: linear-gradient(135deg, #e8f4fc 0%, #d6e8f5 50%, #e0ecf8 100%);
+      color: #1a2a3a;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .main-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 3rem 1.5rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 2px solid rgba(11, 124, 255, 0.15);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-area h1 {
+      margin: 0;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0a5ca8;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-area .tagline {
+      margin: 0.25rem 0 0;
+      font-size: 0.95rem;
+      color: #4a6a8a;
+      font-style: italic;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: #0a5ca8;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(11, 124, 255, 0.2);
+    }
+
+    nav a:hover {
+      background: #0b7cff;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 124, 255, 0.3);
+    }
+
+    nav a.active {
+      background: #0b7cff;
+      color: #fff;
+    }
+
+    /* Section Cards */
+    .section {
+      background: #fff;
+      padding: 1.75rem 2rem;
+      margin-top: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(10, 92, 168, 0.08);
+      border: 1px solid rgba(11, 124, 255, 0.1);
+    }
+
+    .section h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.6rem;
+      margin: 0 0 0.5rem 0;
+      color: #0a5ca8;
+    }
+
+    .section > p {
+      color: #4a6a8a;
+      margin-bottom: 1.25rem;
+    }
+
+    /* Row Layout */
+    .row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    .col h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.15rem;
+      color: #1a3a5a;
+      margin: 0 0 0.75rem 0;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e8f0f8;
+    }
+
+    /* Forms */
+    label {
+      display: block;
+      margin-top: 0.75rem;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #2a4a6a;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border-radius: 8px;
+      border: 2px solid #d6e4f0;
+      font-family: inherit;
+      font-size: 1rem;
+      background: #f8fbfd;
+      transition: all 0.2s ease;
+    }
+
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #0b7cff;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(11, 124, 255, 0.1);
+    }
+
+    /* Budget Indicator */
+    .budget-indicator {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      background: #f0f7ff;
+      border: 1px solid #d0e4f8;
+      font-size: 0.95rem;
+    }
+
+    .budget-indicator.over-budget {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #b91c1c;
+    }
+
+    .budget-indicator.under-budget {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #15803d;
+    }
+
+    .budget-bar {
+      height: 8px;
+      background: #e0ecf4;
+      border-radius: 999px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .budget-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0b7cff, #38bdf8);
+      border-radius: 999px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    .budget-fill.over {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+    }
+
+    /* Channel Table */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 0.75rem;
+    }
+
+    th, td {
+      padding: 0.6rem 0.5rem;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: #f0f6fc;
+      font-weight: 600;
+      color: #1a3a5a;
+      border-bottom: 2px solid #d6e4f0;
+    }
+
+    td {
+      border-bottom: 1px solid #e8f0f8;
+    }
+
+    td input {
+      width: 100%;
+    }
+
+    /* Channel Info Tooltip */
+    .channel-name {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .channel-info {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #e0ecf4;
+      color: #4a7a9a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: help;
+      position: relative;
+    }
+
+    .channel-info:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1a3a5a;
+      color: #fff;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 400;
+      white-space: nowrap;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 1.25rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0b7cff 0%, #0a5ca8 100%);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(11, 124, 255, 0.35);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(11, 124, 255, 0.45);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: #0a5ca8;
+      border: 2px solid #d6e4f0;
+      padding: 0.65rem 1.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: #f0f7ff;
+      border-color: #0b7cff;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Results Section */
+    #results {
+      min-height: 200px;
+    }
+
+    .results-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 200px;
+      color: #7a9aba;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .results-placeholder svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* Results Table */
+    .results-table {
+      margin-top: 1rem;
+    }
+
+    .results-table th {
+      text-align: center;
+    }
+
+    .results-table td {
+      text-align: center;
+    }
+
+    .results-table td:first-child {
+      text-align: left;
+      font-weight: 500;
+
+    }
+
+    /* Win/Lose Indicators */
+    .outcome-card {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .outcome-card.win {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 2px solid #34d399;
+    }
+
+    .outcome-card.lose {
+      background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+      border: 2px solid #f87171;
+    }
+
+    .outcome-card.tie {
+      background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%);
+      border: 2px solid #facc15;
+    }
+
+    .outcome-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .win .outcome-title { color: #059669; }
+    .lose .outcome-title { color: #dc2626; }
+    .tie .outcome-title { color: #ca8a04; }
+
+    .outcome-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 140px;
+      background: #f8fbfd;
+      border: 1px solid #e0ecf4;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6a8aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a3a5a;
+      margin-top: 0.25rem;
+    }
+
+    .stat-value.positive { color: #059669; }
+    .stat-value.negative { color: #dc2626; }
+
+    .stat-compare {
+      font-size: 0.8rem;
+      color: #7a9aba;
+      margin-top: 0.25rem;
+    }
+
+    /* Callout */
+    .section-callout {
+      border-left: 4px solid #0b7cff;
+      padding: 1rem 1.25rem;
+      margin-top: 1.75rem;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fc 100%);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .section-callout h3 {
+      font-family: 'Fraunces', Georgia, serif;
+      margin: 0 0 0.5rem 0;
+      color: #0a5ca8;
+      font-size: 1.1rem;
+    }
+
+    .strategy-steps {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: #3a5a7a;
+    }
+
+    .strategy-steps li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(11, 124, 255, 0.1);
+      text-align: center;
+      color: #6a8aaa;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #0b7cff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .link-top {
+      display: inline-block;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.4s ease-out forwards;
+    }
+
+    .outcome-card {
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section {
+        padding: 1.25rem;
+      }
+
+      .stats-row {
+        flex-direction: column;
+      }
+
+      .stat-card {
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-area h1 {
+        font-size: 1.5rem;
+      }
+
+      nav ul {
+        justify-content: center;
+      }
+
+      nav a {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <div class="main-wrapper">
+    <header>
+      <div class="logo-area">
+        <h1>🎒 Backpack Wars</h1>
+        <p class="tagline">Test your ad strategy against a rival brand</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="game.html" class="active">Simulation</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="upcoming.html">Projects</a></li>
+          <li><a href="contact.html">Newsletter</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <h2>Run a Monthly Marketing Campaign</h2>
+        <p>
+          Allocate your monthly ad budget across four channels and see how your backpack brand
+          performs against a rival. Watch your units sold and profit change as you tweak your strategy.
+        </p>
+
+        <div class="row">
+          <!-- Left column: controls -->
+          <div class="col">
+            <h3>Campaign Settings</h3>
+
+            <label for="budget">Total Ad Budget ($)</label>
+            <input id="budget" type="number" value="20000" min="1000" step="1000" oninput="updateBudgetIndicator()" />
+
+            <label for="difficulty">Competitor Difficulty</label>
+            <select id="difficulty">
+              <option value="Easy">Easy — Learning the ropes</option>
+              <option value="Normal" selected>Normal — Fair competition</option>
+              <option value="Hard">Hard — Aggressive rival</option>
+              <option value="Expert">Expert — Marketing genius</option>
+            </select>
+
+            <h3 style="margin-top: 1.5rem;">Channel Allocations</h3>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>Channel</th>
+                  <th style="width: 120px;">Allocation ($)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <span class="channel-name">
+                      Online Ads
+                      <span class="channel-info" data-tip="High reach, good effectiveness (1.2×)">?</span>
+                    </span>
+                  </td>
+                  <td><input id="online" type="number" value="8000" min="0" step="500" oninput="updateBudgetIndicator()" /></td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="channel-name">
+                      Retail Displays
+                      <span class="channel-info" data-tip="Steady performance, balanced (1.0×)">?</span>
+                    </span>
+                  </td>
+                  <td><input id="retail" type="number" value="6000" min="0" step="500" oninput="updateBudgetIndicator()" /></td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="channel-name">
+                      School Contracts
+                      <span class="channel-info" data-tip="High effectiveness, targeted (1.4×)">?</span>
+                    </span>
+                  </td>
+                  <td><input id="schools" type="number" value="4000" min="0" step="500" oninput="updateBudgetIndicator()" /></td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="channel-name">
+                      Outdoor Shops
+                      <span class="channel-info" data-tip="Niche market, lower reach (0.9×)">?</span>
+                    </span>
+                  </td>
+                  <td><input id="outdoor" type="number" value="2000" min="0" step="500" oninput="updateBudgetIndicator()" /></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div id="budget-indicator" class="budget-indicator">
+              <div style="display: flex; justify-content: space-between;">
+                <span>Allocated: <strong id="allocated-amount">$20,000</strong></span>
+                <span>Remaining: <strong id="remaining-amount">$0</strong></span>
+              </div>
+              <div class="budget-bar">
+                <div id="budget-fill" class="budget-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button class="btn btn-primary" id="run-btn" onclick="playTurn()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Run Month
+              </button>
+              <button class="btn btn-secondary" onclick="resetAllocations()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Right column: results -->
+          <div class="col">
+            <h3>Results</h3>
+            <div id="results">
+              <div class="results-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/>
+                  <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                </svg>
+                <p>Configure your budget allocation and click<br><strong>"Run Month"</strong> to simulate the competition.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-callout">
+          <h3>💡 Strategy Tips</h3>
+          <ol class="strategy-steps">
+            <li><strong>School Contracts</strong> have the highest effectiveness (1.4×) — but lower base demand.</li>
+            <li>The AI competitor also strategizes — higher difficulties make smarter allocations.</li>
+            <li>Profit = (Units × $60) − (Units × $25 cost) − Ad Budget. Overspending hurts your bottom line!</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="link-top" href="#top">↑ Back to top</a>
+      <p>
+        Marketing resource: 
+        <a href="https://www.hubspot.com/marketing-statistics" target="_blank" rel="noopener">
+          Marketing Stats (HubSpot) →
+        </a>
+      </p>
+      <p>© 2025 Maurer Educational Productions LLC</p>
+    </footer>
+  </div>
+
+  <script>
+    // Game Configuration
+    const channels = [
+      { name: "Online Ads", id: "online", demand: 800, effectiveness: 1.2 },
+      { name: "Retail Displays", id: "retail", demand: 600, effectiveness: 1.0 },
+      { name: "School Contracts", id: "schools", demand: 500, effectiveness: 1.4 },
+      { name: "Outdoor Shops", id: "outdoor", demand: 300, effectiveness: 0.9 },
+    ];
+
+    const difficultyConfig = {
+      Easy:   { baseSkill: 0.9, rollMin: 1, rollMax: 6, budgetMultiplier: 0.9 },
+      Normal: { baseSkill: 1.3, rollMin: 2, rollMax: 9, budgetMultiplier: 1.0 },
+      Hard:   { baseSkill: 1.6, rollMin: 4, rollMax: 12, budgetMultiplier: 1.3 },
+      Expert: { baseSkill: 2.0, rollMin: 6, rollMax: 16, budgetMultiplier: 1.6 },
+    };
+
+    const pricePerUnit = 60;
+    const unitCost = 25;
+
+    // Budget indicator update
+    function updateBudgetIndicator() {
+      const budget = parseFloat(document.getElementById('budget').value) || 0;
+      const allocated = getAllocatedTotal();
+      const remaining = budget - allocated;
+      const percentage = Math.min((allocated / budget) * 100, 100);
+
+      document.getElementById('allocated-amount').textContent = '$' + allocated.toLocaleString();
+      document.getElementById('remaining-amount').textContent = '$' + remaining.toLocaleString();
+
+      const indicator = document.getElementById('budget-indicator');
+      const fill = document.getElementById('budget-fill');
+      const runBtn = document.getElementById('run-btn');
+
+      fill.style.width = Math.min(percentage, 100) + '%';
+
+      if (allocated > budget) {
+        indicator.className = 'budget-indicator over-budget';
+        fill.classList.add('over');
+        runBtn.disabled = true;
+      } else if (remaining > 0) {
+        indicator.className = 'budget-indicator under-budget';
+        fill.classList.remove('over');
+        runBtn.disabled = false;
+      } else {
+        indicator.className = 'budget-indicator';
+        fill.classList.remove('over');
+        runBtn.disabled = false;
+      }
+    }
+
+    function getAllocatedTotal() {
+      return channels.reduce((sum, ch) => {
+        return sum + (parseFloat(document.getElementById(ch.id).value) || 0);
+      }, 0);
+    }
+
+    function getPlayerAllocations() {
+      const alloc = {};
+      channels.forEach(ch => {
+        alloc[ch.name] = parseFloat(document.getElementById(ch.id).value) || 0;
+      });
+      return alloc;
+    }
+
+    function aiAllocations(totalBudget, difficulty) {
+      const weights = {
+        "Online Ads": 1.4,
+        "Retail Displays": 1.0,
+        "School Contracts": 1.7,
+        "Outdoor Shops": 0.6,
+      };
+
+      // Add randomness
+      for (const k in weights) {
+        weights[k] *= 0.8 + Math.random() * 0.4;
+      }
+
+      const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
+      const alloc = {};
+      for (const name in weights) {
+        alloc[name] = totalBudget * (weights[name] / totalWeight);
+      }
+      return alloc;
+    }
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function playTurn() {
+      const budget = parseFloat(document.getElementById('budget').value) || 0;
+      const difficulty = document.getElementById('difficulty').value;
+	  const config = difficultyConfig[difficulty];
+      const playerAlloc = getPlayerAllocations();
+	  const aiBudget = budget * config.budgetMultiplier;
+      const aiAlloc = aiAllocations(aiBudget, difficulty);
+
+      // Budget validation
+      const totalAllocated = Object.values(playerAlloc).reduce((a, b) => a + b, 0);
+      if (totalAllocated > budget + 0.01) {
+        return; // Button should be disabled anyway
+      }
+
+      let totalPlayerUnits = 0;
+      let totalAiUnits = 0;
+      let rowsHtml = '';
+
+      channels.forEach(ch => {
+        const pSpend = playerAlloc[ch.name];
+        const aSpend = aiAlloc[ch.name];
+
+        // Player power
+        const pRoll = 1 + Math.random() * 5;
+        const pPower = pSpend * ch.effectiveness * pRoll;
+
+        // AI power
+        const aRoll = randInt(config.rollMin, config.rollMax);
+        const aPower = aSpend * ch.effectiveness * (config.baseSkill + aRoll / 10);
+
+        const totalPower = Math.max(pPower + aPower, 0.0001);
+        const pShare = pPower / totalPower;
+        const aShare = aPower / totalPower;
+
+        // Randomized demand
+        const channelDemand = Math.round(ch.demand * (0.9 + Math.random() * 0.2));
+        const pUnits = Math.round(channelDemand * pShare);
+        const aUnits = Math.round(channelDemand * aShare);
+
+        totalPlayerUnits += pUnits;
+        totalAiUnits += aUnits;
+
+        // Determine winner for this channel
+        let pClass = '';
+        let aClass = '';
+        if (pUnits > aUnits) pClass = 'style="color: #059669; font-weight: 600;"';
+        else if (aUnits > pUnits) aClass = 'style="color: #dc2626; font-weight: 600;"';
+
+        rowsHtml += `
+          <tr>
+            <td>${ch.name}</td>
+            <td>${channelDemand}</td>
+            <td>$${pSpend.toLocaleString()}</td>
+            <td>$${Math.round(aSpend).toLocaleString()}</td>
+            <td ${pClass}>${pUnits}</td>
+            <td ${aClass}>${aUnits}</td>
+          </tr>
+        `;
+      });
+
+      const playerRevenue = totalPlayerUnits * pricePerUnit;
+      const aiRevenue = totalAiUnits * pricePerUnit;
+      const playerCosts = totalPlayerUnits * unitCost + budget;
+      const aiCosts = totalAiUnits * unitCost + aiBudget;
+      const playerProfit = playerRevenue - playerCosts;
+      const aiProfit = aiRevenue - aiCosts;
+
+      // Determine outcome
+      let outcomeClass, outcomeTitle, outcomeSubtitle;
+      if (playerProfit > aiProfit) {
+        outcomeClass = 'win';
+        outcomeTitle = '🎉 You Won!';
+        outcomeSubtitle = `You beat the rival by $${(playerProfit - aiProfit).toLocaleString()}`;
+      } else if (playerProfit < aiProfit) {
+        outcomeClass = 'lose';
+        outcomeTitle = '😔 Rival Wins';
+        outcomeSubtitle = `The rival beat you by $${(aiProfit - playerProfit).toLocaleString()}`;
+      } else {
+        outcomeClass = 'tie';
+        outcomeTitle = '🤝 It\'s a Tie!';
+        outcomeSubtitle = 'Both brands performed equally';
+      }
+
+      const profitClass = playerProfit >= 0 ? 'positive' : 'negative';
+      const aiProfitClass = aiProfit >= 0 ? 'positive' : 'negative';
+
+      const html = `
+        <div class="animate-in">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>Demand</th>
+                <th>Your $</th>
+                <th>Rival $</th>
+                <th>Your Units</th>
+                <th>Rival Units</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rowsHtml}
+            </tbody>
+          </table>
+
+          <div class="stats-row">
+            <div class="stat-card">
+              <div class="stat-label">Your Units</div>
+              <div class="stat-value">${totalPlayerUnits.toLocaleString()}</div>
+              <div class="stat-compare">vs ${totalAiUnits.toLocaleString()} rival</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Your Revenue</div>
+              <div class="stat-value">$${playerRevenue.toLocaleString()}</div>
+              <div class="stat-compare">@ $60/unit</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Your Profit</div>
+              <div class="stat-value ${profitClass}">$${playerProfit.toLocaleString()}</div>
+              <div class="stat-compare">Rival: $${aiProfit.toLocaleString()}</div>
+            </div>
+          </div>
+
+          <div class="outcome-card ${outcomeClass}">
+            <div class="outcome-title">${outcomeTitle}</div>
+            <div class="outcome-subtitle">${outcomeSubtitle}</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('results').innerHTML = html;
+    }
+
+    function resetAllocations() {
+      document.getElementById('budget').value = 20000;
+      document.getElementById('online').value = 8000;
+      document.getElementById('retail').value = 6000;
+      document.getElementById('schools').value = 4000;
+      document.getElementById('outdoor').value = 2000;
+      document.getElementById('difficulty').value = 'Normal';
+      updateBudgetIndicator();
+
+      document.getElementById('results').innerHTML = `
+        <div class="results-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3v18h18"/>
+            <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+          </svg>
+          <p>Configure your budget allocation and click<br><strong>"Run Month"</strong> to simulate the competition.</p>
+        </div>
+      `;
+    }
+
+    // Initialize
+    updateBudgetIndicator();
+  </script>
+</body>
+</html>
